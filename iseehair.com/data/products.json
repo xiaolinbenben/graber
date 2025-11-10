@@ -1,0 +1,402 @@
+[
+  {
+    "name": "Black Friday Up To 50% OFF! >>::",
+    "url": "https://www.iseehair.com/best-sellers.html",
+    "price": "{{item.finalprice}}{{item.price}}{{ item.rate }}|{{ assembleNum(item.salenum) }} soldReviews {{item.reviewcount}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Wear Go Half Wigs",
+    "url": "https://www.iseehair.com/half-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "M-Cap 9x6 Wear Go Wigs",
+    "url": "https://www.iseehair.com/m-cap-9-6-lace-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Human Hair Bundles",
+    "url": "https://www.iseehair.com/hair-bundels-deal.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Wear Go Wigs",
+    "url": "https://www.iseehair.com/dome-cap-glueless-lace-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "InvisiFit Strap 360 Wear Go Wig",
+    "url": "https://www.iseehair.com/360-wear-go-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Color Wigs",
+    "url": "https://www.iseehair.com/colored-wigs.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "HD Lace Wig",
+    "url": "https://www.iseehair.com/hd-lace-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "V Part Wigs",
+    "url": "https://www.iseehair.com/v-part-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Bob Wigs",
+    "url": "https://www.iseehair.com/bob-lace-frontal-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Water Wave Wigs",
+    "url": "https://www.iseehair.com/water-wave-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "CONSTRUCTION",
+    "url": "https://www.iseehair.com/lace-size.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "360 Lace Wigs",
+    "url": "https://www.iseehair.com/360-wigs.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Headband Wigs",
+    "url": "https://www.iseehair.com/headband-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Short Hair Friendly",
+    "url": "https://www.iseehair.com/short-hair-friendly.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Upart Wigs",
+    "url": "https://www.iseehair.com/upart-wigs.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Curly Edges Wigs",
+    "url": "https://www.iseehair.com/type-4c-hairline-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Wigs With Bang",
+    "url": "https://www.iseehair.com/machine-made-wigs.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Glueless Wigs",
+    "url": "https://www.iseehair.com/glueless-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "HAIRSTYLE",
+    "url": "https://www.iseehair.com/hairstyle.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Butterfly Cut Series",
+    "url": "https://www.iseehair.com/butterfly-cut-series.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Pixie Wig",
+    "url": "https://www.iseehair.com/pixie-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Double Drawn Wigs",
+    "url": "https://www.iseehair.com/isee-crown-series.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Baby Hair Stripes",
+    "url": "https://www.iseehair.com/baby-hair-stripes.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "TEXTURE",
+    "url": "https://www.iseehair.com/wig-texture.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Kinky Curly Wig",
+    "url": "https://www.iseehair.com/kinky-curly-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Burmese Curly Collection",
+    "url": "https://www.iseehair.com/burmese-curly-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Afro Curly Wig",
+    "url": "https://www.iseehair.com/afro-curly-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Straight Wig",
+    "url": "https://www.iseehair.com/straight-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Yaki & Kinky Straight Wig",
+    "url": "https://www.iseehair.com/kinky-straight.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Body Wave Wig",
+    "url": "https://www.iseehair.com/body-wave-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Loose Deep Wig",
+    "url": "https://www.iseehair.com/loose-deep-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Deep Curly Wig",
+    "url": "https://www.iseehair.com/deep-curly-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Ocean Wave Wig",
+    "url": "https://www.iseehair.com/ocean-wave-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "13x6 Wear Go Wig",
+    "url": "https://www.iseehair.com/13x6-wear-go-wig-bak.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "7x5 Wear Go Wig V5",
+    "url": "https://www.iseehair.com/wear-go-wig-v5.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Wear Go U/V part",
+    "url": "https://www.iseehair.com/no-leave-out-v-part.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "13*4 Wear Go Wig",
+    "url": "https://www.iseehair.com/13-4-lace-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Wear Go Color Wig",
+    "url": "https://www.iseehair.com/color-lace-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Short Bob Wear Go Wig",
+    "url": "https://www.iseehair.com/short-bob-wig.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "New Arrivals",
+    "url": "https://www.iseehair.com/isee-new-arrivals.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Bulk & Crochet",
+    "url": "https://www.iseehair.com/bulk-hair.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Bundles With Closure/Frontal",
+    "url": "https://www.iseehair.com/bundles-with-4-4-closure.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "1 Bundle/Closure/Frontal",
+    "url": "https://www.iseehair.com/1-bundle.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Clip-ins",
+    "url": "https://www.iseehair.com/clip-ins.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Ponytail",
+    "url": "https://www.iseehair.com/drawstring-ponytail.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Accessories & Lashes",
+    "url": "https://www.iseehair.com/accessarries-lashes.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "ClearanceSale",
+    "url": "https://www.iseehair.com/isee-clearance-sale.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "https://cdn.iseehair.com/media/wysiwyg/pc-menu-img/new-5.png",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "USAShipping",
+    "url": "https://www.iseehair.com/isee-flash-sales.html",
+    "price": "{{item.finalprice}}{{item.price}}",
+    "image": "https://cdn.iseehair.com/media/wysiwyg/pc-menu-img/new-1.png",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  },
+  {
+    "name": "Wholesale",
+    "url": "https://www.iseehair.com/wholesale_inquire.html",
+    "price": "",
+    "image": "",
+    "category": "Wear Go Half Wigs",
+    "category_url": "https://www.iseehair.com/half-wig.html"
+  }
+]

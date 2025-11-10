@@ -14,6 +14,9 @@ class HttpClient:
     def __init__(self):
         self.session = requests.Session()
         self.session.headers.update(HEADERS)
+        # 禁用SSL验证警告
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
     def get(self, url: str, params: Optional[Dict[str, Any]] = None, delay: bool = True) -> requests.Response:
         """
@@ -31,7 +34,8 @@ class HttpClient:
             time.sleep(REQUEST_DELAY)
             
         try:
-            response = self.session.get(url, params=params, timeout=TIMEOUT)
+            # 禁用SSL验证
+            response = self.session.get(url, params=params, timeout=TIMEOUT, verify=False)
             response.raise_for_status()
             return response
         except requests.exceptions.RequestException as e:
@@ -53,7 +57,8 @@ class HttpClient:
         time.sleep(REQUEST_DELAY)
         
         try:
-            response = self.session.post(url, data=data, json=json, timeout=TIMEOUT)
+            # 禁用SSL验证
+            response = self.session.post(url, data=data, json=json, timeout=TIMEOUT, verify=False)
             response.raise_for_status()
             return response
         except requests.exceptions.RequestException as e:
