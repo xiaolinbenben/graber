@@ -1,249 +1,230 @@
-"""
-爬取网站所有商品信息
-"""
+"""爬取网站所有商品信息(支持分页)"""
 
 import json
 import re
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse, parse_qs
+from urllib.parse import urljoin
 from httpclient import HttpClient
 from config import BASE_URL
 from saver import save_to_json
 
 
 class ProductScraper:
-    """商品爬虫类"""
-    
+    """商品爬虫类，按分类分页抓取商品"""
+
     def __init__(self):
         self.client = HttpClient()
-        self.products = []
+        self.products: List[Dict[str, Any]] = []
         self.visited_urls = set()
-        
-    def scrape_category_products(self, category_url: str, category_name: str) -> List[Dict[str, Any]]:
-        """
-        爬取某个分类下的所有商品
-        
+
+    def _build_page_url(self, category_url: str, page: int) -> str:
+        if page <= 1:
+            return category_url
+        if '?' in category_url:
+            return f"{category_url}&p={page}"
+        return f"{category_url}?p={page}"
+
+    def scrape_category_products(self, category_url: str, category_name: str, max_pages: int = 10) -> List[Dict[str, Any]]:
+        """爬取某个分类下的所有商品(支持简单分页)
+
         Args:
             category_url: 分类URL
             category_name: 分类名称
-            
+            max_pages: 最大页数（防止无限循环）
+
         Returns:
-            商品列表
+            商品信息列表
         """
-        print(f"正在爬取分类: {category_name} ({category_url})")
-        
-        if category_url in self.visited_urls:
-            print(f"跳过已访问的URL: {category_url}")
-            return []
-            
-        self.visited_urls.add(category_url)
-        
-        try:
-            response = self.client.get(category_url)
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            products = []
-            
-            # 方法1: 查找商品列表容器
-            product_items = soup.find_all(['div', 'li'], class_=re.compile(r'product|item', re.I))
-            
-            for item in product_items:
-                product = self._parse_product_item(item, category_name)
-                if product:
-                    products.append(product)
+        print(f"正在爬取分类: {category_name}")
+        all_products: List[Dict[str, Any]] = []
+
+        for page in range(1, max_pages + 1):
+            page_url = self._build_page_url(category_url, page)
+
+            if page_url in self.visited_urls:
+                print(f"  跳过已访问的URL: {page_url}")
+                continue
+
+            self.visited_urls.add(page_url)
+            print(f"  爬取第 {page} 页: {page_url}")
+
+            try:
+                resp = self.client.get(page_url)
+                soup = BeautifulSoup(resp.text, 'html.parser')
+
+                page_products: List[Dict[str, Any]] = []
+
+                # 优先选择带图片的链接，通常为商品链接
+                anchors = [a for a in soup.find_all('a', href=re.compile(r'\.html$')) if a.find('img')]
+
+                for a in anchors:
+                    href = a.get('href', '').strip()
+                    if not href or href == '#' or href == category_url:
+                        continue
+
+                    # 构建绝对URL
+                    if href.startswith('/'):
+                        product_url = urljoin(BASE_URL, href)
+                    elif href.startswith('http'):
+                        product_url = href
+                    else:
+                        # 相对路径或其它非标准链接跳过
+                        continue
+
+                    low = href.lower()
+                    skip_patterns = ['privacy', 'terms', 'about', 'contact', 'faq', 'blog', 'cart', 'checkout', 'account', 'login', 'register']
+                    if any(p in low for p in skip_patterns):
+                        continue
+
+                    # 商品名称提取策略：
+                    # 1. 尝试从链接文本提取（排除图片alt）
+                    name = ''
+                    text = a.get_text(strip=True)
+                    if text and len(text) > 10 and 'wig' in text.lower():
+                        name = text
                     
-            # 方法2: 查找所有商品链接
-            product_links = soup.find_all('a', href=re.compile(r'\.html$'))
-            
-            for link in product_links:
-                href = link.get('href', '')
-                
-                # 过滤非商品页面
-                if any(keyword in href.lower() for keyword in [
-                    'privacy', 'terms', 'about', 'contact', 'faq', 'blog', 
-                    'cart', 'checkout', 'account', 'category', 'collection'
-                ]):
-                    continue
-                
-                # 构建完整URL
-                if href.startswith('/'):
-                    product_url = BASE_URL + href
-                elif href.startswith('http'):
-                    product_url = href
-                else:
-                    continue
-                    
-                # 获取商品名称
-                product_name = link.get_text(strip=True)
-                
-                if product_name and len(product_name) > 5:  # 过滤太短的名称
-                    # 查找价格信息
-                    price_elem = link.find_next(['span', 'div'], class_=re.compile(r'price', re.I))
-                    price = price_elem.get_text(strip=True) if price_elem else ""
-                    
-                    # 查找图片
-                    img = link.find('img')
-                    image_url = img.get('src', '') or img.get('data-src', '') if img else ""
-                    if image_url and not image_url.startswith('http'):
-                        image_url = urljoin(BASE_URL, image_url)
-                    
+                    # 2. 如果没有，从URL提取（移除前缀和后缀，转为标题格式）
+                    if not name:
+                        # 从URL提取：/isee-water-wave-half-wig-...html -> Water Wave Half Wig
+                        url_name = href.replace('.html', '').split('/')[-1]
+                        if url_name.startswith('isee-'):
+                            url_name = url_name[5:]  # 移除 'isee-' 前缀
+                        # 将连字符替换为空格，每个单词首字母大写
+                        name_parts = url_name.split('-')
+                        # 过滤掉常见的连接词
+                        filtered_parts = [p.capitalize() for p in name_parts if p not in ['for', 'with', 'the', 'and', 'or']]
+                        name = ' '.join(filtered_parts)
+
+                    if not name or len(name) < 5:
+                        continue
+
+                    # 尝试寻找价格
+                    price = ''
+                    old_price = ''
+                    parent = a.parent
+                    if parent:
+                        price_elem = parent.find(['span', 'div', 'p'], class_=re.compile(r'price', re.I))
+                        if price_elem:
+                            txt = price_elem.get_text(' ', strip=True)
+                            matches = re.findall(r'\$[\d,]+\.?\d*', txt)
+                            if matches:
+                                price = matches[0]
+                                if len(matches) > 1:
+                                    old_price = matches[1]
+
+                    if not price:
+                        next_price_text = a.find_next(string=re.compile(r'\$[\d,]+\.?\d*'))
+                        if next_price_text:
+                            m = re.search(r'\$[\d,]+\.?\d*', next_price_text)
+                            if m:
+                                price = m.group(0)
+
+                    # 图片URL
+                    img = a.find('img')
+                    image_url = ''
+                    if img:
+                        image_url = img.get('src') or img.get('data-src') or img.get('data-lazy') or ''
+                        if image_url and not image_url.startswith('http'):
+                            image_url = urljoin(BASE_URL, image_url)
+
                     product = {
-                        'name': product_name,
+                        'name': name,
                         'url': product_url,
                         'price': price,
+                        'old_price': old_price,
                         'image': image_url,
                         'category': category_name,
                         'category_url': category_url
                     }
-                    
-                    # 避免重复
-                    if not any(p['url'] == product_url for p in products):
-                        products.append(product)
-            
-            print(f"从分类 {category_name} 中找到 {len(products)} 个商品")
-            return products
-            
-        except Exception as e:
-            print(f"爬取分类 {category_name} 失败: {e}")
-            return []
-    
-    def _parse_product_item(self, item: BeautifulSoup, category_name: str) -> Optional[Dict[str, Any]]:
-        """
-        解析商品项
-        
-        Args:
-            item: BeautifulSoup对象
-            category_name: 分类名称
-            
-        Returns:
-            商品信息字典
-        """
-        try:
-            # 查找商品链接
-            link = item.find('a', href=True)
-            if not link:
-                return None
-                
-            href = link.get('href', '')
-            if not href or not href.endswith('.html'):
-                return None
-                
-            # 构建完整URL
-            if href.startswith('/'):
-                product_url = BASE_URL + href
-            elif href.startswith('http'):
-                product_url = href
-            else:
-                return None
-            
-            # 获取商品名称
-            name_elem = item.find(['h2', 'h3', 'h4', 'a'], class_=re.compile(r'name|title', re.I))
-            product_name = name_elem.get_text(strip=True) if name_elem else link.get_text(strip=True)
-            
-            if not product_name or len(product_name) < 5:
-                return None
-            
-            # 获取价格
-            price_elem = item.find(['span', 'div', 'p'], class_=re.compile(r'price', re.I))
-            price = price_elem.get_text(strip=True) if price_elem else ""
-            
-            # 获取原价(如果有折扣)
-            old_price_elem = item.find(['span', 'del'], class_=re.compile(r'old|original|regular', re.I))
-            old_price = old_price_elem.get_text(strip=True) if old_price_elem else ""
-            
-            # 获取图片
-            img = item.find('img')
-            image_url = ""
-            if img:
-                image_url = img.get('src', '') or img.get('data-src', '') or img.get('data-lazy', '')
-                if image_url and not image_url.startswith('http'):
-                    image_url = urljoin(BASE_URL, image_url)
-            
-            # 获取评分和评论数
-            rating_elem = item.find(class_=re.compile(r'rating|star', re.I))
-            rating = rating_elem.get_text(strip=True) if rating_elem else ""
-            
-            reviews_elem = item.find(class_=re.compile(r'review|sold', re.I))
-            reviews = reviews_elem.get_text(strip=True) if reviews_elem else ""
-            
-            return {
-                'name': product_name,
-                'url': product_url,
-                'price': price,
-                'old_price': old_price,
-                'image': image_url,
-                'rating': rating,
-                'reviews': reviews,
-                'category': category_name
-            }
-            
-        except Exception as e:
-            print(f"解析商品项失败: {e}")
-            return None
-    
-    def scrape_all_products(self, categories: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        爬取所有分类的商品
-        
-        Args:
-            categories: 分类列表
-            
-        Returns:
-            所有商品列表
-        """
+
+                    if not any(p['url'] == product['url'] for p in page_products):
+                        page_products.append(product)
+
+                print(f"    第 {page} 页找到 {len(page_products)} 个商品")
+                if not page_products:
+                    print(f"    第 {page} 页无商品，停止爬取")
+                    break
+
+                all_products.extend(page_products)
+
+            except Exception as e:
+                print(f"    爬取第 {page} 页失败: {e}")
+                break
+
+        print(f"  分类 {category_name} 共找到 {len(all_products)} 个商品")
+        return all_products
+
+    def scrape_all_products(self, categories: List[Dict[str, Any]], max_pages_per_category: int = 10) -> List[Dict[str, Any]]:
         print(f"开始爬取所有商品，共 {len(categories)} 个分类...")
-        
+        print(f"每个分类最多爬取 {max_pages_per_category} 页")
+
         for i, category in enumerate(categories, 1):
             print(f"\n进度: {i}/{len(categories)}")
-            
-            products = self.scrape_category_products(
-                category['url'], 
-                category['name']
-            )
-            
+            products = self.scrape_category_products(category['url'], category['name'], max_pages=max_pages_per_category)
             self.products.extend(products)
-        
-        # 去重
-        unique_products = []
-        seen_urls = set()
-        
-        for product in self.products:
-            if product['url'] not in seen_urls:
-                unique_products.append(product)
-                seen_urls.add(product['url'])
-        
-        self.products = unique_products
+
+        # 全局去重
+        unique = []
+        seen = set()
+        for p in self.products:
+            if p['url'] not in seen:
+                unique.append(p)
+                seen.add(p['url'])
+        self.products = unique
         print(f"\n共爬取到 {len(self.products)} 个不重复的商品")
-        
         return self.products
-    
+
     def save_products(self, filename: str = "products.json"):
-        """
-        保存商品数据到JSON文件
-        
-        Args:
-            filename: 文件名
-        """
         save_to_json(self.products, filename)
         print(f"商品数据已保存到: {filename}")
 
 
 def main():
-    """主函数"""
-    # 读取分类数据
     try:
         with open("../data/categories.json", "r", encoding="utf-8") as f:
             categories = json.load(f)
     except FileNotFoundError:
         print("错误: 未找到分类数据文件，请先运行 menu.py")
         return
+
+    scraper = ProductScraper()
+    # 爬取所有分类，每个分类最多爬取20页
+    products = scraper.scrape_all_products(categories, max_pages_per_category=20)
+    scraper.save_products()
+
+    print("\n=== 商品统计 ===")
+    print(f"总商品数: {len(products)}")
+
+    # 按分类统计
+    stats = {}
+    for prod in products:
+        cat = prod.get('category', 'Unknown')
+        stats[cat] = stats.get(cat, 0) + 1
+
+    print("\n各分类商品数:")
+    for cat, cnt in sorted(stats.items(), key=lambda x: x[1], reverse=True):
+        print(f"  {cat}: {cnt}")
+
+    # 打印前5个商品
+    print("\n前5个商品:")
+    for i, prod in enumerate(products[:5], 1):
+        print(f"\n{i}. {prod['name']}")
+        print(f"   价格: {prod.get('price','')}")
+        if prod.get('old_price'):
+            print(f"   原价: {prod.get('old_price')}")
+        print(f"   分类: {prod.get('category')}")
+        print(f"   链接: {prod.get('url')}")
+
+
+if __name__ == "__main__":
+    main()
     
     # 创建商品爬虫
     scraper = ProductScraper()
     
-    # 爬取所有商品
-    products = scraper.scrape_all_products(categories)
+    # 爬取所有商品(每个分类爬取3页作为示例)
+    products = scraper.scrape_all_products(categories[:5], max_pages_per_category=3)
     
     # 保存商品数据
     scraper.save_products()
@@ -265,8 +246,12 @@ def main():
     # 显示前5个商品
     print("\n前5个商品:")
     for i, product in enumerate(products[:5], 1):
-        print(f"{i}. {product['name']}")
+        print(f"\n{i}. {product['name']}")
         print(f"   价格: {product['price']}")
+        if product['old_price']:
+            print(f"   原价: {product['old_price']}")
+        if product['rating']:
+            print(f"   评分: {product['rating']}")
         print(f"   分类: {product['category']}")
         print(f"   链接: {product['url']}")
 
