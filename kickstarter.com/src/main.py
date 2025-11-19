@@ -19,7 +19,7 @@ USER_AGENT = (
 @dataclass
 class Project:
     title: str
-    subtitle: str
+    short_desc_en: str  # 简短描述（英文）
     progress_pct: Optional[int]
     progress_text: str
     link: str
@@ -40,6 +40,7 @@ def scrape_category(
         browser = p.chromium.launch(headless=True)
 
         empty_in_a_row = 0
+        stagnant_pages = 0
         for page_no in range(1, max_pages + 1):
             page = browser.new_page(user_agent=USER_AGENT, viewport={"width": 1280, "height": 2000})
             url = (
@@ -77,19 +78,26 @@ def scrape_category(
                 subtitle_el = card.select_one("div.project-card-root__extra-info p") or card.select_one(
                     "div.project-card-root__extra-info-container p"
                 )
-                subtitle = subtitle_el.get_text(" ", strip=True) if subtitle_el else ""
+                short_desc = subtitle_el.get_text(" ", strip=True) if subtitle_el else ""
 
                 prog_str_el = card.find(string=lambda s: isinstance(s, str) and re.search(r"\d{1,3},?\d*%", s))
                 progress_text = prog_str_el.strip() if prog_str_el else ""
                 m = re.search(r"([0-9,]+)%", progress_text)
                 pct = int(m.group(1).replace(",", "")) if m else None
 
-                projects.append(Project(title, subtitle, pct, progress_text, href_base))
+                projects.append(Project(title, short_desc, pct, progress_text, href_base))
                 if href_base:
                     seen_links.add(href_base)
                 new_count += 1
 
             logger.info(f"Added {new_count} new records from page {page_no}")
+            if new_count == 0:
+                stagnant_pages += 1
+                if stagnant_pages >= 2:
+                    logger.info("No new records in two consecutive pages, stopping.")
+                    break
+            else:
+                stagnant_pages = 0
 
         browser.close()
 
@@ -100,9 +108,9 @@ def save_to_xlsx(items: List[Project], filepath: str) -> None:
     wb = Workbook()
     ws = wb.active
     ws.title = "raised_gt_100"
-    ws.append(["title", "subtitle", "progress_pct", "progress_text", "link"])
+    ws.append(["title", "short_desc_en", "progress_pct", "progress_text", "link"])
     for item in items:
-        ws.append([item.title, item.subtitle, item.progress_pct, item.progress_text, item.link])
+        ws.append([item.title, item.short_desc_en, item.progress_pct, item.progress_text, item.link])
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     wb.save(filepath)
     logger.info(f"Saved {len(items)} rows to {filepath}")
@@ -110,12 +118,12 @@ def save_to_xlsx(items: List[Project], filepath: str) -> None:
 
 def main():
     category_id = 270  # 遊戲相關硬體
-    data = scrape_category(category_id=category_id, raised=2, sort="most_funded", seed=2939070, max_pages=50)
+    data = scrape_category(category_id=category_id, raised=2, sort="most_funded", seed=2939070, max_pages=200)
     output_path = os.path.join(
         os.path.dirname(__file__),
         "..",
         "output",
-        f"category_{category_id}_raised2_all.xlsx",
+        f"category_{category_id}_raised2_list.xlsx",
     )
     save_to_xlsx(data, output_path)
 
