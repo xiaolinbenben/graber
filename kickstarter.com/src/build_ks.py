@@ -235,10 +235,12 @@ def build_rows(
         handle = slug_from_url(canonical_url)
         sku_base = handle
         main_image = detail.image_url if detail else ""
+        category_name = "Gaming Hardware"
 
         base_row = [""] * len(TEMPLATE_HEADERS)
         base_row[2] = project_title
         base_row[3] = "M"
+        base_row[4] = category_name
         base_row[5] = short_desc
         base_row[6] = long_desc
         base_row[7] = short_desc
@@ -254,10 +256,11 @@ def build_rows(
         base_row[18] = 2
         base_row[20] = "Kickstarter, Category270"
         base_row[21] = "Kickstarter"
+        base_row[22] = "Type"
         base_row[27] = sku_base
         base_row[30] = "999"
-        base_row[31] = project.progress_text
-        base_row[32] = f"Project link: {project.link}"
+        base_row[31] = ""
+        base_row[32] = ""
         base_row[33] = main_image
         rows.append(base_row)
 
@@ -275,6 +278,7 @@ def build_rows(
             display_price = reward.price_text if reward.price_text else (f"{price_value:.2f}" if price_value else "")
             row[2] = project_title
             row[3] = "P"
+            row[4] = category_name
             row[5] = short_desc
             row[6] = long_desc
             row[7] = short_desc
@@ -310,13 +314,8 @@ def build_rows(
             row[26] = display_price
             row[27] = sku
             row[30] = "999"
-            row[31] = project.progress_text
-            note = f"Link: {project.link}"
-            if currency:
-                note += f" | Currency: {currency}"
-            if reward.title:
-                note += f" | Reward: {reward.title}"
-            row[32] = note
+            row[31] = ""
+            row[32] = ""
             row[33] = reward.image_url or main_image
             rows.append(row)
     return rows
