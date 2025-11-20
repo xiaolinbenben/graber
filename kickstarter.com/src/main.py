@@ -118,7 +118,7 @@ def save_to_xlsx(items: List[Project], filepath: str) -> None:
 
 def main():
     category_id = 270  # 遊戲相關硬體
-    data = scrape_category(category_id=category_id, raised=2, sort="most_funded", seed=2939070, max_pages=200)
+    data = scrape_category(category_id=category_id, raised=2, sort="most_funded", seed=2939070, max_pages=3)
     output_path = os.path.join(
         os.path.dirname(__file__),
         "..",

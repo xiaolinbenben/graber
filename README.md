@@ -80,3 +80,20 @@
      --limit 10 \
      --max-rewards 3
    `
+
+## Kickstarter 专案脚本怎么跑
+
+1. **准备环境**
+       cd kickstarter.com
+       python -m venv .venv
+       .\.venv\Scripts\Activate.ps1
+       python -m pip install -r src/requirements.txt
+2. **爬分类列表（raised=2、默认 270 类别）**
+       python src/main.py
+   会生成 output/category_270_raised2_list.xlsx，包含标题/描述/进度/链接。
+3. **写入 ks.xlsx（Story + 奖励 M/P 行）**（在 CMD 中执行一行命令）
+       python src/build_ks.py --list-file output\category_270_raised2_list.xlsx --template output\ks.xlsx --min-progress 100 --limit 10 --max-rewards 3
+   - --limit：只处理前 N 个项目（省略则全量）
+   - --max-rewards：每个项目保留的奖励数；脚本会产出 1 行 M(Type) + 多行 P，商品描述为 Story HTML，价格/图片来自奖励卡片。
+   - 如果提示 ModuleNotFoundError: No module named 'loguru'，重新执行 python -m pip install -r src/requirements.txt。
+4. **换其他分类或输入**：修改 src/main.py 的 category_id/raised/sort 再跑步骤 2→3，或把 --list-file 换成新的 Excel。
