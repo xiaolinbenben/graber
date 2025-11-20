@@ -71,3 +71,12 @@
 | SEO 描述       | 最多 20 字符                                                                                                                      |
 | SEO URL Handle | 最多支持输入 255 字符（SEO URL handle 只对 SEO URL 的「URL 参数」部分进行更改，即"products/"后的内容，如：products/「URL 参数」） |
 | SEO 关键词     | 多个关键词请用「英文逗号」隔开                                                                                                    |
+
+`powershell
+   python src/build_ks.py \
+     --list-file output/category_270_raised2_list.xlsx \
+     --template output/ks.xlsx \
+     --min-progress 100 \
+     --limit 10 \
+     --max-rewards 3
+   `
