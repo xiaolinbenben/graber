@@ -163,45 +163,26 @@ def normalize_price(text: str) -> Tuple[Optional[str], Optional[float]]:
     return currency, value
 
 
-def collect_detail_and_rewards(projects: List[BaseProject]) -> Tuple[Dict[str, DetailData], Dict[str, List[RewardData]]]:
-    details: Dict[str, DetailData] = {}
-    rewards: Dict[str, List[RewardData]] = {}
-
-    def fetch_html(page, url: str) -> str:
-        logger.debug(f"Requesting {url}")
-        page.goto(url, wait_until="domcontentloaded", timeout=120000)
-        page.wait_for_timeout(6000)
+def fetch_html(page, url: str) -> str:
+    logger.debug(f"Requesting {url}")
+    page.goto(url, wait_until="domcontentloaded", timeout=120000)
+    page.wait_for_timeout(6000)
+    html = page.content()
+    title = page.title()
+    if "Just a moment" not in (title or "") and "cf-browser-verification" not in html:
+        return html
+    last_html = html
+    for attempt in range(3):
+        wait_ms = 6000 + attempt * 4000
+        logger.debug(f"Waiting {wait_ms/1000:.1f}s for Cloudflare challenge on {url}")
+        page.wait_for_timeout(wait_ms)
         html = page.content()
         title = page.title()
+        last_html = html
         if "Just a moment" not in (title or "") and "cf-browser-verification" not in html:
             return html
-        last_html = html
-        for attempt in range(3):
-            wait_ms = 6000 + attempt * 4000
-            logger.debug(f"Waiting {wait_ms/1000:.1f}s for Cloudflare challenge on {url}")
-            page.wait_for_timeout(wait_ms)
-            html = page.content()
-            title = page.title()
-            last_html = html
-            if "Just a moment" not in (title or "") and "cf-browser-verification" not in html:
-                return html
-        logger.warning(f"Cloudflare challenge persisted for {url}")
-        return last_html
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(user_agent=USER_AGENT, viewport={"width": 1280, "height": 2200})
-        for idx, project in enumerate(projects, 1):
-            page = context.new_page()
-            logger.info(f"[{idx}/{len(projects)}] Fetching detail {project.link}")
-            detail_html = fetch_html(page, project.link)
-            detail_data, parsed_rewards = parse_detail_page(project.link, detail_html, project.short_desc)
-            details[project.link] = detail_data
-            logger.info(f"Parsed {len(parsed_rewards)} rewards for {project.link}")
-            rewards[project.link] = parsed_rewards
-            page.close()
-        browser.close()
-    return details, rewards
+    logger.warning(f"Cloudflare challenge persisted for {url}")
+    return last_html
 
 
 def slug_from_url(url: str) -> str:
@@ -215,129 +196,136 @@ def slugify(text: str) -> str:
     return slug or "item"
 
 
-def build_rows(
-    projects: List[BaseProject],
-    details: Dict[str, DetailData],
-    rewards: Dict[str, List[RewardData]],
+def build_rows_for_project(
+    project: BaseProject,
+    detail: DetailData,
+    reward_list: List[RewardData],
     max_rewards: Optional[int] = None,
 ) -> List[List[str]]:
     rows: List[List[str]] = []
-    for project in projects:
-        detail = details.get(project.link)
-        reward_list = rewards.get(project.link, [])
-        project_title = (detail.title if detail else project.title).strip()
-        short_desc = (detail.short_desc if detail else project.short_desc).strip()
-        long_desc = detail.story_html if detail else short_desc
-        seo_title = detail.seo_title if detail else project_title
-        seo_desc = detail.seo_description if detail else short_desc
-        seo_keywords = detail.seo_keywords if detail else ""
-        canonical_url = detail.canonical_url if detail else project.link
-        handle = slug_from_url(canonical_url)
-        sku_base = handle
-        main_image = detail.image_url if detail else ""
-        category_name = "Gaming Hardware"
+    project_title = (detail.title if detail else project.title).strip()
+    short_desc = (detail.short_desc if detail else project.short_desc).strip()
+    long_desc = detail.story_html if detail else short_desc
+    seo_title = detail.seo_title if detail else project_title
+    seo_desc = detail.seo_description if detail else short_desc
+    seo_keywords = detail.seo_keywords if detail else ""
+    canonical_url = detail.canonical_url if detail else project.link
+    handle = slug_from_url(canonical_url)
+    sku_base = handle
+    main_image = detail.image_url if detail else ""
+    category_name = "Gaming Hardware"
 
-        base_row = [""] * len(TEMPLATE_HEADERS)
-        base_row[2] = project_title
-        base_row[3] = "M"
-        base_row[4] = category_name
-        base_row[5] = short_desc
-        base_row[6] = long_desc
-        base_row[7] = short_desc
-        base_row[8] = project_title
-        base_row[9] = seo_title
-        base_row[10] = seo_desc
-        base_row[11] = handle
-        base_row[12] = seo_keywords
-        base_row[13] = "Y"
-        base_row[14] = "N"
-        base_row[15] = sku_base
-        base_row[17] = "N"
-        base_row[18] = 2
-        base_row[20] = "Kickstarter, Category270"
-        base_row[21] = "Kickstarter"
-        base_row[22] = "Type"
-        base_row[27] = sku_base
-        base_row[30] = "999"
-        base_row[31] = ""
-        base_row[32] = ""
-        base_row[33] = main_image
-        rows.append(base_row)
+    base_row = [""] * len(TEMPLATE_HEADERS)
+    base_row[2] = project_title
+    base_row[3] = "M"
+    base_row[4] = category_name
+    base_row[5] = short_desc
+    base_row[6] = long_desc
+    base_row[7] = short_desc
+    base_row[8] = project_title
+    base_row[9] = seo_title
+    base_row[10] = seo_desc
+    base_row[11] = handle
+    base_row[12] = seo_keywords
+    base_row[13] = "Y"
+    base_row[14] = "N"
+    base_row[15] = sku_base
+    base_row[17] = "N"
+    base_row[18] = 2
+    base_row[20] = "Kickstarter, Category270"
+    base_row[21] = "Kickstarter"
+    base_row[22] = "Type"
+    base_row[27] = sku_base
+    base_row[30] = "999"
+    base_row[31] = ""
+    base_row[32] = ""
+    base_row[33] = main_image
+    rows.append(base_row)
 
-        reward_iterable = reward_list
-        if max_rewards is not None:
-            reward_iterable = reward_list[:max_rewards]
-        if not reward_iterable:
-            reward_iterable = [
-                RewardData(title=project_title, price_text="", image_url=main_image)
-            ]
+    reward_iterable = reward_list
+    if max_rewards is not None:
+        reward_iterable = reward_list[:max_rewards]
+    if not reward_iterable:
+        reward_iterable = [
+            RewardData(title=project_title, price_text="", image_url=main_image)
+        ]
 
-        for idx, reward in enumerate(reward_iterable, 1):
-            row = [""] * len(TEMPLATE_HEADERS)
-            currency, price_value = normalize_price(reward.price_text)
-            display_price = reward.price_text if reward.price_text else (f"{price_value:.2f}" if price_value else "")
-            row[2] = project_title
-            row[3] = "P"
-            row[4] = category_name
-            row[5] = short_desc
-            row[6] = long_desc
-            row[7] = short_desc
-            row[8] = project_title
-            row[9] = seo_title
-            row[10] = seo_desc
-            row[11] = handle
-            row[12] = seo_keywords
-            row[13] = "Y"
-            row[14] = "N"
-            variant_slug = slugify(reward.title or f"variant-{idx}")[:30] or f"variant-{idx}"
-            base_part = sku_base
-            max_len = 63
-            combined = f"{base_part}-{variant_slug}"
-            if len(combined) > max_len:
+    for idx, reward in enumerate(reward_iterable, 1):
+        row = [""] * len(TEMPLATE_HEADERS)
+        currency, price_value = normalize_price(reward.price_text)
+        display_price = reward.price_text if reward.price_text else (f"{price_value:.2f}" if price_value else "")
+        row[2] = project_title
+        row[3] = "P"
+        row[4] = category_name
+        row[5] = short_desc
+        row[6] = long_desc
+        row[7] = short_desc
+        row[8] = project_title
+        row[9] = seo_title
+        row[10] = seo_desc
+        row[11] = handle
+        row[12] = seo_keywords
+        row[13] = "Y"
+        row[14] = "N"
+        variant_slug = slugify(reward.title or f"variant-{idx}")[:30] or f"variant-{idx}"
+        base_part = sku_base
+        max_len = 63
+        combined = f"{base_part}-{variant_slug}"
+        if len(combined) > max_len:
+            available = max_len - len(variant_slug) - 1
+            if available < 1:
+                trimmed_variant = variant_slug[: max_len - 2] or "var"
+                variant_slug = trimmed_variant
                 available = max_len - len(variant_slug) - 1
-                if available < 1:
-                    trimmed_variant = variant_slug[: max_len - 2]
-                    if not trimmed_variant:
-                        trimmed_variant = "var"
-                    variant_slug = trimmed_variant
-                    available = max_len - len(variant_slug) - 1
-                base_part = base_part[: max(1, available)]
-                combined = f"{base_part}-{variant_slug}"
-            sku = combined[:max_len]
-            row[15] = sku
-            row[17] = "N"
-            row[18] = 2
-            row[20] = "Kickstarter, Category270"
-            row[21] = "Kickstarter"
-            row[22] = reward.title or f"Variant {idx}"
-            row[25] = display_price
-            row[26] = display_price
-            row[27] = sku
-            row[30] = "999"
-            row[31] = ""
-            row[32] = ""
-            row[33] = reward.image_url or main_image
-            rows.append(row)
+            base_part = base_part[: max(1, available)]
+            combined = f"{base_part}-{variant_slug}"
+        sku = combined[:max_len]
+        row[15] = sku
+        row[17] = "N"
+        row[18] = 2
+        row[20] = "Kickstarter, Category270"
+        row[21] = "Kickstarter"
+        row[22] = reward.title or f"Variant {idx}"
+        row[25] = display_price
+        row[26] = display_price
+        row[27] = sku
+        row[30] = "999"
+        row[31] = ""
+        row[32] = ""
+        row[33] = reward.image_url or main_image
+        rows.append(row)
     return rows
 
 
-def write_to_template(rows: List[List[str]], template_path: str) -> None:
-    if not os.path.exists(template_path):
-        raise FileNotFoundError(f"Template not found: {template_path}")
-    wb = load_workbook(template_path)
-    ws = wb.active
-    if ws.max_row < 2:
-        ws.insert_rows(2)
-    if ws.max_row > 2:
-        ws.delete_rows(3, ws.max_row - 2)
-    for col_idx in range(1, len(TEMPLATE_HEADERS) + 1):
-        ws.cell(row=2, column=col_idx, value=None)
-    start_row = 3
-    for idx, row in enumerate(rows):
-        for col_idx, value in enumerate(row, start=1):
-            ws.cell(row=start_row + idx, column=col_idx, value=value)
-    wb.save(template_path)
-    logger.info(f"Wrote {len(rows)} rows to {template_path}")
+class KsWriter:
+    def __init__(self, filepath: str):
+        self.filepath = filepath
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"Template not found: {filepath}")
+        self.wb = load_workbook(filepath)
+        self.ws = self.wb.active
+        if self.ws.max_row < 2:
+            self.ws.insert_rows(2)
+        if self.ws.max_row > 2:
+            self.ws.delete_rows(3, self.ws.max_row - 2)
+        self.next_row = 3
+        self.wb.save(self.filepath)
+    def append_rows(self, rows: List[List[str]]) -> None:
+        for row in rows:
+            for col_idx, value in enumerate(row, start=1):
+                self.ws.cell(row=self.next_row, column=col_idx, value=value)
+            self.next_row += 1
+        self.wb.save(self.filepath)
+
+
+def scrape_project(project: BaseProject, context, idx: int, total: int) -> Tuple[DetailData, List[RewardData]]:
+    page = context.new_page()
+    logger.info(f"[{idx}/{total}] Fetching detail {project.link}")
+    detail_html = fetch_html(page, project.link)
+    detail_data, reward_list = parse_detail_page(project.link, detail_html, project.short_desc)
+    logger.info(f"Parsed {len(reward_list)} rewards for {project.link}")
+    page.close()
+    return detail_data, reward_list
 
 
 def main() -> None:
@@ -353,9 +341,16 @@ def main() -> None:
     if not projects:
         logger.error("No projects to process.")
         return
-    details, rewards = collect_detail_and_rewards(projects)
-    rows = build_rows(projects, details, rewards, max_rewards=args.max_rewards)
-    write_to_template(rows, args.template)
+    writer = KsWriter(args.template)
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(user_agent=USER_AGENT, viewport={"width": 1280, "height": 2200})
+        for idx, project in enumerate(projects, 1):
+            detail, reward_list = scrape_project(project, context, idx, len(projects))
+            rows = build_rows_for_project(project, detail, reward_list, max_rewards=args.max_rewards)
+            writer.append_rows(rows)
+        browser.close()
 
 
 if __name__ == "__main__":
