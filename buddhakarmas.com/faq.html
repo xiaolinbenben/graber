@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions - Buddha & Karma</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container-fluid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        #main {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+        
+        .row-fluid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .span6 {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .topic-index {
+            margin-bottom: 40px;
+        }
+        
+        .topic-index-header h3 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .topic-index-header h3 a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        
+        .article-count {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .content-list {
+            list-style: none;
+        }
+        
+        .content-list li {
+            margin-bottom: 12px;
+        }
+        
+        .content-list a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .content-list a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        .faq-detail {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .faq-item {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .faq-category {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .faq-question {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .faq-answer {
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 10px;
+        }
+        
+        #ask-a-question {
+            margin-top: 60px;
+            padding: 30px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        #ask-a-question h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        #ask-a-question p {
+            font-size: 1.1em;
+            color: #555;
+        }
+        
+        #ask-a-question a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        #ask-a-question a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            #main {
+                padding: 20px;
+            }
+            
+            .row-fluid {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="main">
+            <h1>Frequently Asked Questions</h1>
+            
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="topics" class="section">
+                        <div class="row-fluid">
+                            <div class="span6">
+                                <div class="topic-index">
+                                    <div class="topic-index-header">
+                                        <h3 id="header-general">General</h3>
+                                        <p class="article-count">1 article in this Topic</p>
+                                    </div>
+                                    <ul class="content-list">
+                                        <li>
+                                            <a href="#general-where-are-you-located">WHERE ARE YOU LOCATED?</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="topic-index">
+                                    <div class="topic-index-header">
+                                        <h3 id="header-ordering">Ordering</h3>
+                                        <p class="article-count">3 articles in this Topic</p>
+                                    </div>
+                                    <ul class="content-list">
+                                        <li>
+                                            <a href="#ordering-do-i-need-a-paypal-account">DO I NEED A PAYPAL ACCOUNT?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#ordering-do-you-accept-cash-on-delivery-or-bank-payment">DO YOU ACCEPT CASH ON DELIVERY OR BANK PAYMENT?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#ordering-which-currency-are-you-using-on-your-website">WHICH CURRENCY ARE YOU USING ON YOUR WEBSITE?</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="span6">
+                                <div class="topic-index">
+                                    <div class="topic-index-header">
+                                        <h3 id="header-products">Products</h3>
+                                        <p class="article-count">3 articles in this Topic</p>
+                                    </div>
+                                    <ul class="content-list">
+                                        <li>
+                                            <a href="#products-are-the-items-cleansed">ARE THE ITEMS CLEANSED?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#products-are-the-items-genuine-not-plastic">ARE THE ITEMS GENUINE, NOT PLASTIC?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#products-where-are-the-products-made">WHERE ARE THE PRODUCTS MADE?</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="topic-index">
+                                    <div class="topic-index-header">
+                                        <h3 id="header-shipping">Shipping</h3>
+                                        <p class="article-count">8 articles in this Topic</p>
+                                    </div>
+                                    <ul class="content-list">
+                                        <li>
+                                            <a href="#shipping-do-i-have-to-sign-for-the-shipment">DO I HAVE TO SIGN FOR THE SHIPMENT?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#shipping-do-you-ship-worldwide">DO YOU SHIP WORLDWIDE?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#shipping-how-can-i-track-my-package">HOW CAN I TRACK MY PACKAGE?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#shipping-how-do-you-ship-the-items">HOW DO YOU SHIP THE ITEMS?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#shipping-how-long-is-the-shipping-time">HOW LONG IS THE SHIPPING TIME?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#shipping-what-is-the-price-of-shipping">WHAT IS THE PRICE OF SHIPPING?</a>
+                                        </li>
+                                        <li>
+                                            <a href="#shipping-when-will-my-tracking-information-appear">WHEN WILL MY TRACKING INFORMATION APPEAR?</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Details Section -->
+                    <div class="faq-detail">
+                        <h2 style="margin-bottom: 30px; color: #2c3e50; font-size: 2em;">All Questions & Answers</h2>
+
+                        <!-- General -->
+                        <div class="faq-item" id="general-where-are-you-located">
+                            <div class="faq-category">General</div>
+                            <div class="faq-question">WHERE ARE YOU LOCATED?</div>
+                            <div class="faq-answer">
+                                <p>Our company headquarters are located in Chattanooga, TN and our team members work from different locations worldwide! We firmly believe in flexible hours and remote work but ensure we always provide our customers with the best service possible. It is not uncommon that we respond to your emails late at night or even on weekends because we love our jobs and enjoy dedicating our time to making our customers happy.</p>
+                            </div>
+                        </div>
+
+                        <!-- Ordering -->
+                        <div class="faq-item" id="ordering-do-i-need-a-paypal-account">
+                            <div class="faq-category">Ordering</div>
+                            <div class="faq-question">DO I NEED A PAYPAL ACCOUNT?</div>
+                            <div class="faq-answer">
+                                <p>We offer Paypal as a payment option but we offer other options as well. We accept all major credit and debit cards, PayPal, Shop Pay, Apple and Google Pay.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="ordering-do-you-accept-cash-on-delivery-or-bank-payment">
+                            <div class="faq-category">Ordering</div>
+                            <div class="faq-question">DO YOU ACCEPT CASH ON DELIVERY OR BANK PAYMENT?</div>
+                            <div class="faq-answer">
+                                <p>We offer safe shopping and accept payment via Paypal and all major credit cards. Cash on delivery and bank payment are NOT available.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="ordering-which-currency-are-you-using-on-your-website">
+                            <div class="faq-category">Ordering</div>
+                            <div class="faq-question">WHICH CURRENCY ARE YOU USING ON YOUR WEBSITE?</div>
+                            <div class="faq-answer">
+                                <p>Our store can display multiple currencies for a better shopping experience. However, the default checkout currency is US Dollars. If you are checking out with another currency, your bank will convert the amount to your currency based on the current foreign exchange rate. You may see the equivalent amount by selecting your currency from the dropdown.</p>
+                            </div>
+                        </div>
+
+                        <!-- Products -->
+                        <div class="faq-item" id="products-are-the-items-cleansed">
+                            <div class="faq-category">Products</div>
+                            <div class="faq-question">ARE THE ITEMS CLEANSED?</div>
+                            <div class="faq-answer">
+                                <p>Yes, all the items are cleansed before being sent to our customers. We work in partnership with merchants and artisans from around the world to provide you with authentic and high-quality items.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="products-are-the-items-genuine-not-plastic">
+                            <div class="faq-category">Products</div>
+                            <div class="faq-question">ARE THE ITEMS GENUINE, NOT PLASTIC?</div>
+                            <div class="faq-answer">
+                                <p>Yes, our items are genuine and of high quality and made of original materials. All product pages specify the exact material.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="products-where-are-the-products-made">
+                            <div class="faq-category">Products</div>
+                            <div class="faq-question">WHERE ARE THE PRODUCTS MADE?</div>
+                            <div class="faq-answer">
+                                <p>We source our products from trusted manufacturers all around the globe. Many of our products are made in Asian countries such as Singapore, China, Hong Kong and Japan, the centers of spirituality and where unique materials such as black obsidian and jade stones are to be found.</p>
+                                <p>Through factory inspections and production guidelines, we ensure the highest quality of product and fair work conditions with all of our partner factories.</p>
+                            </div>
+                        </div>
+
+                        <!-- Shipping -->
+                        <div class="faq-item" id="shipping-do-i-have-to-sign-for-the-shipment">
+                            <div class="faq-category">Shipping</div>
+                            <div class="faq-question">DO I HAVE TO SIGN FOR THE SHIPMENT?</div>
+                            <div class="faq-answer">
+                                <p>No, signing for shipments is not necessary.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="shipping-do-you-ship-worldwide">
+                            <div class="faq-category">Shipping</div>
+                            <div class="faq-question">DO YOU SHIP WORLDWIDE?</div>
+                            <div class="faq-answer">
+                                <p>Currently we only ship to the US and Canada.</p>
+                                <p>If you are interested in a wholesale order outside of the US or Canada, please contact us, we'd be happy to discuss!</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="shipping-how-can-i-track-my-package">
+                            <div class="faq-category">Shipping</div>
+                            <div class="faq-question">HOW CAN I TRACK MY PACKAGE?</div>
+                            <div class="faq-answer">
+                                <p>We partner with Aftership to offer a seamless tracking and delivery process.</p>
+                                <p>You will receive an email with the tracking information after your order is placed and your package leaves our warehouse, generally within 24-48 hours. That email includes a link to your order tracking page.</p>
+                                <p>If you already have your tracking number, you may also use our tracking portal to track your package here: <a href="https://newwaveselect2a.aftership.com/?page-name=buddha-karma-order-tracking" target="_blank">Track Your Order</a></p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="shipping-how-do-you-ship-the-items">
+                            <div class="faq-category">Shipping</div>
+                            <div class="faq-question">HOW DO YOU SHIP THE ITEMS?</div>
+                            <div class="faq-answer">
+                                <p>We partner with the best available shipping services to ensure your order arrives as quickly as possible. Items shipped to the United States are generally shipped via USPS and the packaging is small enough to fit in most mailboxes.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="shipping-how-long-is-the-shipping-time">
+                            <div class="faq-category">Shipping</div>
+                            <div class="faq-question">HOW LONG IS THE SHIPPING TIME?</div>
+                            <div class="faq-answer">
+                                <p>Transit time can vary by location, but we always aim for your order to arrive as quickly as possible. General transit times are:</p>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>US: 3-7 business days</li>
+                                    <li>UK: 3-7 business days</li>
+                                    <li>Canada: 3-8 business days</li>
+                                    <li>Europe: 3-7 business days</li>
+                                    <li>Worldwide: 10-20 business days</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="shipping-what-is-the-price-of-shipping">
+                            <div class="faq-category">Shipping</div>
+                            <div class="faq-question">WHAT IS THE PRICE OF SHIPPING?</div>
+                            <div class="faq-answer">
+                                <p>We like to keep things simple, shipping is $4.95 unless otherwise indicated.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item" id="shipping-when-will-my-tracking-information-appear">
+                            <div class="faq-category">Shipping</div>
+                            <div class="faq-question">WHEN WILL MY TRACKING INFORMATION APPEAR?</div>
+                            <div class="faq-answer">
+                                <p>Tracking information generally updates 48-72 hours after your tracking number is received. This allows time for the carrier to pick up your item and tracking to go live on their end.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ask-a-question" class="section">
+                        <h3>Contact Us</h3>
+                        <p>Not finding what you're looking for? <a href="contact.html">Contact Us Directly</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
