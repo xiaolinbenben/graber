@@ -24,6 +24,7 @@
 
 - 所有类名使用统一的前缀（与组件名相关）
 - 重置所有 margin 和 padding 为明确的值（不依赖外部样式）
+- **组件容器顶部不留 padding**（`padding-top: 0`），由内部元素的 margin-top 控制间距
 - 使用 CSS 命名空间，所有选择器格式：`.container-class .element-class`
 - 避免使用通配符选择器（如 `*`）
 - 动画关键帧使用唯一名称（带前缀）
@@ -64,8 +65,8 @@
 <div class="unique-component-wrapper">
   <style>
     .unique-component-wrapper {
-      /* 组件外层容器样式 */
-      padding: 60px 20px;
+      /* 组件外层容器样式 - 顶部不留 padding */
+      padding: 0 20px 60px 20px;
       background: #f5f5f5;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         sans-serif;
@@ -78,10 +79,10 @@
     }
 
     .unique-component-wrapper .component-title {
-      /* 标题样式 */
+      /* 标题样式 - 通过 margin-top 控制与顶部的距离 */
       font-size: 42px;
       font-weight: 700;
-      margin: 0 0 40px 0;
+      margin: 32px 0 40px 0;
       text-align: center;
     }
 
@@ -103,14 +104,14 @@
 
     /* 响应式设计 */
     @media (max-width: 1024px) {
-      .unique-component-wrapper .inner-container {
-        padding: 0 30px;
+      .unique-component-wrapper {
+        padding: 0 30px 50px 30px;
       }
     }
 
     @media (max-width: 768px) {
       .unique-component-wrapper {
-        padding: 40px 20px;
+        padding: 0 20px 40px 20px;
       }
 
       .unique-component-wrapper .component-title {
@@ -158,6 +159,7 @@
 4. **必须**实现响应式布局
 5. **必须**保留原始图片 URL 和链接
 6. **必须**所有 margin 和 padding 明确设置（不省略）
+7. **必须**组件容器顶部 padding 设为 0，通过内部元素 margin-top 控制顶部间距
 
 ## 类名命名规范
 
@@ -217,7 +219,7 @@
         Oxygen, Ubuntu, Cantarell, sans-serif;
       background-color: #e8ebe8;
       color: #374151;
-      padding: 60px 20px;
+      padding: 0 20px 60px 20px;
     }
 
     .drums-purpose-component .drums-container {
@@ -230,14 +232,14 @@
       font-size: 42px;
       font-weight: 700;
       color: #374151;
-      margin: 0 0 60px 0;
+      margin: 32px 0 60px 0;
     }
 
     /* 更多样式... */
 
     @media (max-width: 768px) {
       .drums-purpose-component {
-        padding: 40px 20px;
+        padding: 0 20px 40px 20px;
       }
 
       .drums-purpose-component .drums-main-title {

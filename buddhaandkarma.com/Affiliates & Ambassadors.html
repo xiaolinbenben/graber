@@ -1,0 +1,339 @@
+<!-- Affiliates & Ambassadors 组件开始 -->
+<div class="affiliate-program-component-wrapper">
+  <style>
+    .affiliate-program-component-wrapper {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      background-color: #ffffff;
+      color: #374151;
+      padding: 0 20px 60px 20px;
+      line-height: 1.7;
+    }
+
+    .affiliate-program-component-wrapper * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* 头部介绍部分 */
+    .affiliate-program-component-wrapper .affiliate-intro {
+      margin: 40px 0 32px 0;
+      font-size: 17px;
+      color: #374151;
+      line-height: 1.8;
+    }
+
+    /* 章节标题样式 */
+    .affiliate-program-component-wrapper .affiliate-section-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 48px 0 20px 0;
+      text-align: left;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-section-title:first-of-type {
+      margin-top: 32px;
+    }
+
+    /* 内容段落 */
+    .affiliate-program-component-wrapper .affiliate-paragraph {
+      font-size: 16px;
+      color: #4b5563;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    /* 统计信息卡片 */
+    .affiliate-program-component-wrapper .affiliate-stats-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 24px 0;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .affiliate-program-component-wrapper .affiliate-stats-item {
+      font-size: 16px;
+      line-height: 2;
+      font-weight: 500;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-stats-item strong {
+      font-weight: 700;
+      font-size: 17px;
+    }
+
+    /* 链接样式 */
+    .affiliate-program-component-wrapper .affiliate-link {
+      color: #2563eb;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-link:hover {
+      color: #1d4ed8;
+    }
+
+    /* 亮点文本框 */
+    .affiliate-program-component-wrapper .affiliate-highlight-box {
+      background-color: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 20px;
+      margin: 24px 0;
+      border-radius: 8px;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-highlight-text {
+      font-size: 16px;
+      color: #92400e;
+      line-height: 1.8;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-highlight-text strong {
+      font-weight: 700;
+      color: #78350f;
+    }
+
+    /* 章节内容区域 */
+    .affiliate-program-component-wrapper .affiliate-section {
+      margin-bottom: 40px;
+    }
+
+    /* CTA 按钮样式 */
+    .affiliate-program-component-wrapper .affiliate-cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      margin: 8px 0;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    }
+
+    /* 警告/提示框 */
+    .affiliate-program-component-wrapper .affiliate-notice-box {
+      background-color: #fee2e2;
+      border-left: 4px solid #ef4444;
+      padding: 20px;
+      margin: 24px 0;
+      border-radius: 8px;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-notice-text {
+      font-size: 16px;
+      color: #991b1b;
+      line-height: 1.8;
+    }
+
+    /* 关键词标签 */
+    .affiliate-program-component-wrapper .affiliate-keywords {
+      background-color: #f3f4f6;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-keywords-label {
+      font-weight: 700;
+      color: #1f2937;
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    .affiliate-program-component-wrapper .affiliate-keywords-text {
+      font-size: 15px;
+      color: #6b7280;
+      line-height: 1.8;
+    }
+
+    /* 间距控制 */
+    .affiliate-program-component-wrapper .affiliate-spacer {
+      height: 24px;
+    }
+
+    /* 响应式设计 - 平板端 */
+    @media (max-width: 1024px) {
+      .affiliate-program-component-wrapper {
+        padding: 0 30px 50px 30px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-section-title {
+        font-size: 26px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-stats-card {
+        padding: 20px;
+      }
+    }
+
+    /* 响应式设计 - 移动端 */
+    @media (max-width: 768px) {
+      .affiliate-program-component-wrapper {
+        padding: 0 20px 40px 20px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-intro {
+        margin: 32px 0 24px 0;
+        font-size: 16px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-section-title {
+        font-size: 22px;
+        margin: 36px 0 16px 0;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-paragraph,
+      .affiliate-program-component-wrapper .affiliate-highlight-text,
+      .affiliate-program-component-wrapper .affiliate-notice-text {
+        font-size: 15px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-stats-card {
+        padding: 18px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-stats-item {
+        font-size: 15px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-cta-button {
+        padding: 12px 28px;
+        font-size: 15px;
+        display: block;
+        text-align: center;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-highlight-box,
+      .affiliate-program-component-wrapper .affiliate-notice-box {
+        padding: 16px;
+      }
+    }
+
+    /* 响应式设计 - 小屏幕 */
+    @media (max-width: 480px) {
+      .affiliate-program-component-wrapper {
+        padding: 0 16px 32px 16px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-section-title {
+        font-size: 20px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-intro,
+      .affiliate-program-component-wrapper .affiliate-paragraph,
+      .affiliate-program-component-wrapper .affiliate-highlight-text,
+      .affiliate-program-component-wrapper .affiliate-notice-text {
+        font-size: 14px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-stats-card {
+        padding: 16px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-stats-item {
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-cta-button {
+        padding: 12px 24px;
+        font-size: 14px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-keywords {
+        padding: 16px;
+      }
+
+      .affiliate-program-component-wrapper .affiliate-keywords-text {
+        font-size: 14px;
+      }
+    }
+  </style>
+
+  <div class="affiliate-container">
+    <!-- 头部介绍 -->
+    <div class="affiliate-intro">
+      <p>We offer the best spiritual affiliate program with a 20% commission and 30 Days cookie. This is - hands down - the best affiliate program in the spiritual niche for any topic related to Feng Shui, Buddhist jewelry, crystals, Chakra, Meditation and law of attraction. I mean, maybe even the best program in the whole jewelry niche.</p>
+    </div>
+
+    <!-- 最佳灵性联盟计划 -->
+    <div class="affiliate-section">
+      <h2 class="affiliate-section-title">The best spiritual affiliate program</h2>
+      <p class="affiliate-paragraph">
+        If you're looking for the best spiritual affiliate program that's out there, it's your lucky day. We've been around for a few years, have hundreds of spiritual products and ten thousands of happy customers. Our marketing team is happy to help you with content, creative and even keyword research. We provide free sample products in return for UGC videos.
+      </p>
+      
+      <div class="affiliate-stats-card">
+        <div class="affiliate-stats-item"><strong>Cookie:</strong> 30D</div>
+        <div class="affiliate-stats-item"><strong>Commission:</strong> starting at 20%</div>
+        <div class="affiliate-stats-item"><strong>AOV:</strong> $65</div>
+      </div>
+    </div>
+
+    <!-- 影响者部分 -->
+    <div class="affiliate-section">
+      <h2 class="affiliate-section-title">Are you and Influencer?</h2>
+      <p class="affiliate-paragraph">
+        Do you have a Social channel (i.e. TikTok, Instagram, Youtube) with and audience that you want to use to promote our products? We are looking for brand ambassadors and you can sign up to our <a href="https://af.uppromote.com/BuddhaandKarma/register?p=56818" target="_blank" rel="noopener noreferrer" class="affiliate-link">influencer affiliate program here</a>. We will then reach out to help you getting set up, support you with creative and send sample products. We are looking for long term collaborations.
+      </p>
+      
+      <div class="affiliate-highlight-box">
+        <p class="affiliate-highlight-text">
+          <strong>Goodie:</strong> we are looking for video creators and we're willing to push the videos you create with ads. Reach out if you're interested: affiliate@buddhaandkarma.com
+        </p>
+      </div>
+    </div>
+
+    <!-- 内容创作者/博客主 -->
+    <div class="affiliate-section">
+      <h2 class="affiliate-section-title">Are you a Content Creator/ Blog Owner?</h2>
+      <p class="affiliate-paragraph">
+        Do you have a blog or website and would like to earn more than those Amazon 2-3%? Yeah, we get that. <a href="https://af.uppromote.com/BuddhaandKarma/register?p=56818" target="_blank" rel="noopener noreferrer" class="affiliate-cta-button">This way to start earning 20% or more!</a>
+      </p>
+    </div>
+
+    <!-- 大量交易 -->
+    <div class="affiliate-section">
+      <h2 class="affiliate-section-title">Are you gonna move mad volume?</h2>
+      <p class="affiliate-paragraph">
+        Awesome let's talk. For high volume accounts, please reach out to <span style="font-weight: 600;">affiliate@buddhaandkarma.com</span> so we can tailor a custom deal for you.
+      </p>
+    </div>
+
+    <!-- 优惠券或评论网站 -->
+    <div class="affiliate-section">
+      <h2 class="affiliate-section-title">Are you a Coupon Code or Review Site?</h2>
+      <div class="affiliate-notice-box">
+        <p class="affiliate-notice-text">
+          Sorry guys, we are not interested in coupon sites, review sites and marketplaces as those are not able to generate cold traffic. No, we're really not interested, even if you send your beautiful pitch deck. Thanks for understanding.
+        </p>
+      </div>
+    </div>
+
+    <!-- 相关搜索关键词 -->
+    <div class="affiliate-keywords">
+      <span class="affiliate-keywords-label">Related Searches:</span>
+      <span class="affiliate-keywords-text">
+        Chakra affiliate program, spiritual jewelry affiliate program, meditation affiliate program, Tiktok affiliate program, crystals affiliate program, spirituality affiliate program
+      </span>
+    </div>
+  </div>
+</div>
+<!-- Affiliates & Ambassadors 组件结束 -->
